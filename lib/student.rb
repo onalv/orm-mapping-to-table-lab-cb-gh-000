@@ -2,10 +2,10 @@ class Student
   attr_accessor :name, :grade
   attr_reader :id
 
-  def initialize(name:, grade:, id: => nil)
+  def initialize(name, grade, id=nil)
+    @id = id
     @name = name
     @grade = grade
-
   end
 
   def self.create_table
@@ -17,7 +17,7 @@ class Student
     )
     SQL
 
-    
+
     DB[:conn].execute(sql)
   end
 
@@ -30,10 +30,10 @@ class Student
 
   def save
     sql = <<- SQL
-      INSERT INTO users (name, grade) 
+      INSERT INTO users (name, grade)
       VALUES (?, ?)
     SQL
-    
+
     DB[:conn].execute(sql, self.name, self.grade)
 
     @id = DB[conn].execute("SELECT last_insert_rowid() FROM users")[0][0]
